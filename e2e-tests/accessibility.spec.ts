@@ -75,6 +75,35 @@ test.describe('Accessibility Tests', () => {
     });
   });
 
+  test('visual modes - should persist independently after reload', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('[data-testid="games-grid"]', { timeout: 10000 });
+
+    const contrastToggle = page.getByRole('button', { name: /toggle high contrast mode/i });
+    const lightModeToggle = page.getByRole('button', { name: /toggle light mode/i });
+
+    await test.step('Enable both visual modes independently', async () => {
+      await expect(contrastToggle).toHaveAttribute('aria-pressed', 'false');
+      await expect(lightModeToggle).toHaveAttribute('aria-pressed', 'false');
+      await contrastToggle.click();
+      await lightModeToggle.click();
+      await expect(contrastToggle).toHaveAttribute('aria-pressed', 'true');
+      await expect(lightModeToggle).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('html')).toHaveClass(/high-contrast/);
+      await expect(page.locator('html')).toHaveClass(/light-mode/);
+    });
+
+    await test.step('Verify both preferences survive a page reload', async () => {
+      await page.reload();
+      await expect(contrastToggle).toHaveAttribute('aria-pressed', 'true');
+      await expect(lightModeToggle).toHaveAttribute('aria-pressed', 'true');
+      await expect(contrastToggle).toHaveText('High contrast: on');
+      await expect(lightModeToggle).toHaveText('Light mode: on');
+      await expect(page.locator('html')).toHaveClass(/high-contrast/);
+      await expect(page.locator('html')).toHaveClass(/light-mode/);
+    });
+  });
+
   test('keyboard navigation - should be able to navigate to game cards', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('[data-testid="games-grid"]', { timeout: 10000 });

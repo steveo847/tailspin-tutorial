@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+:root {
+	--mode-page-bg: initial;
+	--mode-surface-bg: initial;
+	--mode-muted-bg: initial;
+	--mode-header-bg: initial;
+	--mode-text: initial;
+	--mode-border: initial;
+	--mode-link: initial;
+	--mode-focus: initial;
+	--mode-header-border: transparent;
+}
+
+html.light-mode {
+	--mode-page-bg: #f8fafc;
+	--mode-surface-bg: #fff;
+	--mode-muted-bg: #f1f5f9;
+	--mode-header-bg: #1d4ed8;
+	--mode-text: #0f172a;
+	--mode-border: #cbd5e1;
+	--mode-link: #1d4ed8;
+	--mode-focus: #1d4ed8;
+}
+
+html.high-contrast {
+	--mode-page-bg: #000;
+	--mode-surface-bg: #000;
+	--mode-muted-bg: #000;
+	--mode-header-bg: #000;
+	--mode-text: #fff;
+	--mode-border: #fff;
+	--mode-link: #fff;
+	--mode-focus: #ff0;
+	--mode-header-border: #fff;
+}
+
+html:is(.light-mode, .high-contrast) body {
+	background-color: var(--mode-page-bg) !important;
+	color: var(--mode-text) !important;
+}
+
+html:is(.light-mode, .high-contrast) body header {
+	background-color: var(--mode-header-bg) !important;
+	border-bottom: 2px solid var(--mode-header-border) !important;
+	color: var(--mode-text) !important;
+}
+
+html:is(.light-mode, .high-contrast) body [class*="bg-slate-"] {
+	background-color: var(--mode-surface-bg) !important;
+}
+
+html:is(.light-mode, .high-contrast) body [class*="bg-slate-950"] {
+	background-color: var(--mode-muted-bg) !important;
+}
+
+html:is(.light-mode, .high-contrast) body [class*="bg-white"] {
+	background-color: var(--mode-surface-bg) !important;
+}
+
+html:is(.light-mode, .high-contrast) body [class*="text-slate-"],
+html:is(.light-mode, .high-contrast) body [class*="text-blue-"],
+html:is(.light-mode, .high-contrast) body [class*="text-gray-"],
+html:is(.light-mode, .high-contrast) body [class*="text-white"] {
+	color: var(--mode-text) !important;
+}
+
+html:is(.light-mode, .high-contrast) body [class*="border-"] {
+	border-color: var(--mode-border) !important;
+}
+
+html:is(.light-mode, .high-contrast) body a {
+	color: var(--mode-link);
+}
+
+html:is(.light-mode, .high-contrast) body a:focus-visible,
+html:is(.light-mode, .high-contrast) body button:focus-visible {
+	outline: 3px solid var(--mode-focus) !important;
+	outline-offset: 3px;
+}
+
+html.high-contrast body [class*="shadow-"] {
+	box-shadow: 0 0 0 2px var(--mode-border) !important;
+}
